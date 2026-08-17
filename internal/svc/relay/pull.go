@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // PullTask implements pull relay (connect to remote, play, republish locally).

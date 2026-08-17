@@ -4,9 +4,9 @@
 package rtmp
 
 import (
-	"log"
-	"github.com/vinq1911/nonchalant/internal/core/bus"
 	rtmpprotocol "github.com/vinq1911/nonchalant/internal/core/protocol/rtmp"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
+	"log"
 )
 
 // Publisher manages publishing media messages to a stream.

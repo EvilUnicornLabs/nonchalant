@@ -24,10 +24,10 @@ import (
 // SharedLog size (or larger), wrap intervals are seconds at typical
 // frame rates — far longer than any subscriber's per-frame work.
 type Arena struct {
-	base     []byte
-	slot     int
-	mask     uint64
-	cursor   atomic.Uint64
+	base   []byte
+	slot   int
+	mask   uint64
+	cursor atomic.Uint64
 }
 
 // NewArena allocates an arena of `slots` × `slotSize` bytes. `slots` must

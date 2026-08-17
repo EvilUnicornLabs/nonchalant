@@ -90,6 +90,18 @@ type TranscodeProfile struct {
 	OutputURL string `yaml:"output_url"` // Output URL
 }
 
+// New returns a Config populated with sane defaults (see setDefaults), for
+// consumers that want to build a configuration programmatically instead of
+// loading it from a YAML file — e.g. an embedding application that assigns
+// its own (possibly ephemeral) ports. The returned Config can be mutated
+// freely before being passed to server.New; call Validate afterwards to
+// confirm the result is well-formed.
+func New() *Config {
+	cfg := &Config{}
+	cfg.setDefaults()
+	return cfg
+}
+
 // Load reads configuration from a YAML file.
 // Returns an error if the file cannot be read or decoded.
 func Load(path string) (*Config, error) {

@@ -9,8 +9,8 @@ import (
 	"log"
 	"sync"
 
-	"github.com/vinq1911/nonchalant/internal/config"
-	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/config"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // slot binds one configured relay to its currently-running Task instance and

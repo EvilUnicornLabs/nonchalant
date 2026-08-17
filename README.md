@@ -70,10 +70,10 @@ subscribers park on a channel closed by the publisher rather than polling.
 - **Lock-free shared-log bus.** A single-producer, multi-cursor ring means
   `Publish` is one atomic add + one atomic store regardless of how many
   viewers are attached. Subscriber count does not appear in the publisher's
-  hot path. (`internal/core/bus/sharedlog.go`)
+  hot path. (`pkg/core/bus/sharedlog.go`)
 - **Zero allocations per RTMP frame.** A per-stream wrap-around arena
   serves payload buffers; `flv.AppendTag` writes directly into them. No
-  `sync.Pool`, no GC pressure on the ingest path. (`internal/core/bus/arena.go`)
+  `sync.Pool`, no GC pressure on the ingest path. (`pkg/core/bus/arena.go`)
 - **Wake-on-publish.** Idle viewers block on an
   `atomic.Pointer[chan struct{}]` that the publisher closes when a frame
   lands. No timers, no spinning, no background scheduler load.

@@ -5,10 +5,10 @@ package rtmp
 
 import (
 	"fmt"
-	"log"
-	"github.com/vinq1911/nonchalant/internal/core/bus"
 	"github.com/vinq1911/nonchalant/internal/core/protocol/amf0"
 	rtmpprotocol "github.com/vinq1911/nonchalant/internal/core/protocol/rtmp"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
+	"log"
 )
 
 // ServiceSession wraps RTMP protocol session with service logic.

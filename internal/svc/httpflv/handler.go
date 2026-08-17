@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // waitForStreams polls the stream's cached init data and returns the
@@ -103,7 +103,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "hijack failed", http.StatusInternalServerError)
 		return
 	}
-	defer conn.Close()
+	defer func() { _ = conn.Close() }()
 
 	// Send a minimal HTTP/1.1 response. NOTE: no Transfer-Encoding — without
 	// it the response is "until close", which is what we want for live FLV.

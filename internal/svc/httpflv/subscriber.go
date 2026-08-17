@@ -10,16 +10,16 @@ import (
 	"net"
 	"time"
 
-	"github.com/vinq1911/nonchalant/internal/core/bus"
-	"github.com/vinq1911/nonchalant/internal/core/protocol/flv"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/protocol/flv"
 )
 
 // Subscriber represents an HTTP-FLV client subscriber.
 // Reads messages from bus and writes FLV tags directly to the underlying
 // TCP connection (post-Hijack). One conn.Write per tag = one syscall.
 type Subscriber struct {
-	conn          io.Writer       // typically a *net.TCPConn after Hijack
-	deadliner     deadlineSetter  // set on conn when available; nil for tests
+	conn          io.Writer      // typically a *net.TCPConn after Hijack
+	deadliner     deadlineSetter // set on conn when available; nil for tests
 	busSubscriber *bus.Subscriber
 	stream        *bus.Stream
 	subscriberID  uint64

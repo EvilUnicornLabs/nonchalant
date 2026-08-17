@@ -14,10 +14,10 @@ import (
 type Subscriber struct {
 	id      uint64
 	stream  *Stream
-	cursor  uint64           // next sequence number to read from the log
-	pending []*MediaMessage  // init messages replayed first; drained in order
-	pendIdx int              // index into pending (0..len(pending))
-	dropped atomic.Uint64    // count of messages skipped due to slow-consumer wrap
+	cursor  uint64          // next sequence number to read from the log
+	pending []*MediaMessage // init messages replayed first; drained in order
+	pendIdx int             // index into pending (0..len(pending))
+	dropped atomic.Uint64   // count of messages skipped due to slow-consumer wrap
 }
 
 // newSubscriber allocates a Subscriber pointing at the end of the stream's

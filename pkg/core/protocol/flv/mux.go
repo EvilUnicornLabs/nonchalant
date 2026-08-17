@@ -4,7 +4,7 @@
 package flv
 
 import (
-	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // MuxAudio converts a bus MediaMessage to an FLV audio tag.

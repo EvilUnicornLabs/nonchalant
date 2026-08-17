@@ -7,8 +7,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/vinq1911/nonchalant/internal/core/bus"
-	"github.com/vinq1911/nonchalant/internal/core/protocol/flv"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/protocol/flv"
 )
 
 // Subscriber represents a WebSocket-FLV client subscriber.

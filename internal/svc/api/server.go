@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/vinq1911/nonchalant/internal/core/bus"
 	"github.com/vinq1911/nonchalant/internal/svc/relay"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // Service provides HTTP API functionality.

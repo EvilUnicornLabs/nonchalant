@@ -7,7 +7,7 @@
 package transcode
 
 import (
-	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 	"testing"
 )
 
