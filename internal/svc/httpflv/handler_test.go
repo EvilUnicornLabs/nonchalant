@@ -10,7 +10,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 )
 
 func TestHTTPFLVHandlerNotFound(t *testing.T) {

@@ -6,9 +6,9 @@ package rtmp
 import (
 	"fmt"
 	"log"
-	"nonchalant/internal/core/bus"
-	"nonchalant/internal/core/protocol/amf0"
-	rtmpprotocol "nonchalant/internal/core/protocol/rtmp"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/protocol/amf0"
+	rtmpprotocol "github.com/vinq1911/nonchalant/internal/core/protocol/rtmp"
 )
 
 // HandleReleaseStream handles the releaseStream command.

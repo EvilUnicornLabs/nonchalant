@@ -6,7 +6,7 @@ package wsflv
 import (
 	"net/http"
 	"net/http/httptest"
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 	"testing"
 
 	"github.com/gorilla/websocket"

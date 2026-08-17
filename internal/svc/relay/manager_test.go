@@ -4,8 +4,8 @@
 package relay
 
 import (
-	"nonchalant/internal/config"
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/config"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 	"testing"
 	"time"
 )

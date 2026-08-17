@@ -7,7 +7,7 @@ package flv
 import (
 	"testing"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 )
 
 // fakeKeyframe builds a minimal AVCC video payload that IsVideoKeyframe

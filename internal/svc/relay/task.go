@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 )
 
 // Task represents a relay task (pull or push).

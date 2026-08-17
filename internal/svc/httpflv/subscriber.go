@@ -10,8 +10,8 @@ import (
 	"net"
 	"time"
 
-	"nonchalant/internal/core/bus"
-	"nonchalant/internal/core/protocol/flv"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/protocol/flv"
 )
 
 // Subscriber represents an HTTP-FLV client subscriber.

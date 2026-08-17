@@ -10,8 +10,8 @@ import (
 	"net/http"
 	"os"
 
-	"nonchalant/internal/config"
-	"nonchalant/internal/server"
+	"github.com/vinq1911/nonchalant/internal/config"
+	"github.com/vinq1911/nonchalant/internal/server"
 )
 
 // main is the entrypoint for the nonchalant server.

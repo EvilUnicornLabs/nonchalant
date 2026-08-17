@@ -9,8 +9,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"nonchalant/internal/core/bus"
-	"nonchalant/internal/svc/relay"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/svc/relay"
 )
 
 // fakeRelayMgr is a minimal RelayManager for benchmarks.

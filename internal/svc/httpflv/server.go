@@ -6,8 +6,8 @@ package httpflv
 import (
 	"net/http"
 
-	"nonchalant/internal/auth"
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/auth"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 )
 
 // Service provides HTTP-FLV streaming functionality.

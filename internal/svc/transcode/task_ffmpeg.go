@@ -8,7 +8,7 @@ package transcode
 
 import (
 	"context"
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 )
 
 // Task represents a transcoding task.

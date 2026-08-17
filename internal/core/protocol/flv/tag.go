@@ -7,7 +7,7 @@ package flv
 import (
 	"encoding/binary"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 )
 
 // Tag represents an FLV tag (audio, video, or script).

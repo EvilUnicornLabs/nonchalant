@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/internal/core/bus"
 )
 
 // waitForStreams polls the stream's cached init data and returns the

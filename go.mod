@@ -1,4 +1,4 @@
-module nonchalant
+module github.com/vinq1911/nonchalant
 
 go 1.25
 
