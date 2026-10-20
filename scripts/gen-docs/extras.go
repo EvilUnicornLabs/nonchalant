@@ -21,7 +21,7 @@ nonchalant has three test layers, each with a different blast radius:
 
 | Layer         | Lives in              | Drives                                          | Requires                 |
 | ------------- | --------------------- | ----------------------------------------------- | ------------------------ |
-| Unit          | ` + "`internal/**/*_test.go`" + ` | Pure Go packages, table-driven tests        | Go toolchain             |
+| Unit          | ` + "`internal/**/*_test.go`" + `, ` + "`pkg/**/*_test.go`" + ` | Pure Go packages, table-driven tests | Go toolchain             |
 | Integration   | ` + "`internal/itest`" + `        | Real binary on ephemeral ports + ffmpeg CLI | ffmpeg on PATH           |
 | E2E (browser) | ` + "`e2e/`" + `                  | Real binary + ffmpeg + Chromium via flv.js  | ffmpeg + Node + Chromium |
 
@@ -31,7 +31,7 @@ nonchalant has three test layers, each with a different blast radius:
 make test          # all packages
 make test-short    # short-mode only
 make test-race     # with the race detector
-make bench         # benchmarks (internal/core/bus)
+make bench         # benchmarks (pkg/core/bus)
 ` + "```" + `
 
 ## Integration Tests

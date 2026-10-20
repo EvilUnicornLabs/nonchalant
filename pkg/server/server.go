@@ -10,18 +10,18 @@ import (
 	"net/http/pprof"
 	"time"
 
-	"nonchalant/internal/auth"
-	"nonchalant/internal/config"
-	"nonchalant/internal/core/bus"
-	"nonchalant/internal/svc/api"
-	"nonchalant/internal/svc/health"
-	"nonchalant/internal/svc/httpflv"
-	"nonchalant/internal/svc/metrics"
-	"nonchalant/internal/svc/pkger"
-	"nonchalant/internal/svc/relay"
-	"nonchalant/internal/svc/rtmp"
-	"nonchalant/internal/svc/transcode"
-	"nonchalant/internal/svc/wsflv"
+	"github.com/vinq1911/nonchalant/internal/svc/api"
+	"github.com/vinq1911/nonchalant/internal/svc/health"
+	"github.com/vinq1911/nonchalant/internal/svc/httpflv"
+	"github.com/vinq1911/nonchalant/internal/svc/metrics"
+	"github.com/vinq1911/nonchalant/internal/svc/relay"
+	"github.com/vinq1911/nonchalant/internal/svc/rtmp"
+	"github.com/vinq1911/nonchalant/internal/svc/wsflv"
+	"github.com/vinq1911/nonchalant/pkg/auth"
+	"github.com/vinq1911/nonchalant/pkg/config"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/pkger"
+	"github.com/vinq1911/nonchalant/pkg/transcode"
 )
 
 // Server wraps the HTTP server and its dependencies.
@@ -157,6 +157,14 @@ func (s *Server) Start(cfg *config.Config) error {
 
 	// Start HTTP server (blocks)
 	return s.httpServer.ListenAndServe()
+}
+
+// Registry returns the server's stream bus registry. Embedding consumers
+// use this to tap a live stream in-process — e.g. to subscribe and persist
+// incoming media to object storage — without going through a network
+// protocol. See the pkg/core/bus package doc for the subscribe pattern.
+func (s *Server) Registry() *bus.Registry {
+	return s.registry
 }
 
 // Shutdown gracefully stops the server with a timeout.

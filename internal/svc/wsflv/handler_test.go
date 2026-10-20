@@ -4,9 +4,9 @@
 package wsflv
 
 import (
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 	"net/http"
 	"net/http/httptest"
-	"nonchalant/internal/core/bus"
 	"testing"
 
 	"github.com/gorilla/websocket"

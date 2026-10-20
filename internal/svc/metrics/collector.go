@@ -6,7 +6,7 @@ package metrics
 import (
 	"github.com/prometheus/client_golang/prometheus"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // collector implements prometheus.Collector by querying the bus registry on demand.

@@ -16,26 +16,31 @@ just a subscriber.
 ## Directory Structure
 
 - `cmd/nonchalant/` - Main entrypoint: configuration, server startup, signal handling
-- `internal/config/` - YAML configuration loading and validation
-- `internal/server/` - Top-level server lifecycle and graceful shutdown
-- `internal/core/bus/` - Stream registry, ring-buffered subscribers, fan-out
+- `pkg/config/` - YAML configuration loading, validation, and programmatic construction
+- `pkg/server/` - Top-level server lifecycle and graceful shutdown (embeddable)
+- `pkg/core/bus/` - Stream registry, ring-buffered subscribers, fan-out (tap point for embedders)
+- `pkg/core/protocol/flv/` - FLV header / tag muxing
+- `pkg/pkger/` - HLS / DASH packager (spawns ffmpeg subprocesses)
+- `pkg/transcode/` - Optional transcode pipeline (build tag `ffmpeg`)
+- `pkg/auth/` - Pre-shared-key publish / play authentication
 - `internal/core/protocol/amf0/` - AMF0 encode/decode for RTMP commands
-- `internal/core/protocol/flv/` - FLV header / tag muxing
 - `internal/core/protocol/rtmp/` - RTMP chunk, message, handshake
 - `internal/svc/health/` - `/healthz` endpoint
 - `internal/svc/rtmp/` - RTMP ingest with optional publish-key authentication
 - `internal/svc/httpflv/` - HTTP-FLV output
 - `internal/svc/wsflv/` - WebSocket-FLV output
-- `internal/svc/pkger/` - HLS / DASH packager (spawns ffmpeg subprocesses)
 - `internal/svc/relay/` - RTMP pull / push relay tasks
 - `internal/svc/api/` - HTTP API
 - `internal/svc/metrics/` - Prometheus `/metrics` endpoint
-- `internal/svc/transcode/` - Optional transcode pipeline (build tag `ffmpeg`)
 - `internal/ffx/` - cgo wrapper around FFmpeg libs (build tag `ffmpeg`)
 - `internal/itest/` - Integration tests that drive the real binary
 - `e2e/` - Playwright browser end-to-end tests
 - `scripts/` - Code-quality enforcement and doc generation
 - `.github/workflows/` - CI pipeline (check, integration, e2e)
+
+`pkg/` is the importable library surface — see the "Embedding as a
+library" section of the README. Everything under `internal/` is a wire
+protocol or service implementation detail and is not part of the public API.
 
 ## Data Flow
 
@@ -43,7 +48,7 @@ just a subscriber.
    publisher must include `?key=<secret>` in the stream name; otherwise the
    publish is rejected with `NetStream.Publish.Failed`.
 2. Audio/video tags are decoded once and pushed onto a stream-keyed channel in
-   `internal/core/bus`. The bus caches the FLV header plus AVC and AAC
+   `pkg/core/bus`. The bus caches the FLV header plus AVC and AAC
    sequence headers so late subscribers can join mid-stream.
 3. Each output service subscribes to the bus and writes the cached headers
    followed by live tags. HTTP-FLV streams over chunked HTTP; WebSocket-FLV

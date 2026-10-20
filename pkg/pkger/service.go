@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	"nonchalant/internal/auth"
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/auth"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // Service exposes HLS and DASH packaging via HTTP.

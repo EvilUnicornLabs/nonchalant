@@ -7,8 +7,8 @@
 package transcode
 
 import (
-	"nonchalant/internal/config"
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/config"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // Manager manages transcoding tasks.

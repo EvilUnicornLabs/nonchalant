@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // fakeRelayMgr is a minimal RelayManager for tests.

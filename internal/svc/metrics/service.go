@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // Service exposes the /metrics endpoint and registers the collectors.

@@ -70,10 +70,10 @@ subscribers park on a channel closed by the publisher rather than polling.
 - **Lock-free shared-log bus.** A single-producer, multi-cursor ring means
   `Publish` is one atomic add + one atomic store regardless of how many
   viewers are attached. Subscriber count does not appear in the publisher's
-  hot path. (`internal/core/bus/sharedlog.go`)
+  hot path. (`pkg/core/bus/sharedlog.go`)
 - **Zero allocations per RTMP frame.** A per-stream wrap-around arena
   serves payload buffers; `flv.AppendTag` writes directly into them. No
-  `sync.Pool`, no GC pressure on the ingest path. (`internal/core/bus/arena.go`)
+  `sync.Pool`, no GC pressure on the ingest path. (`pkg/core/bus/arena.go`)
 - **Wake-on-publish.** Idle viewers block on an
   `atomic.Pointer[chan struct{}]` that the publisher closes when a frame
   lands. No timers, no spinning, no background scheduler load.
@@ -259,6 +259,90 @@ curl -X POST http://localhost:8081/api/relay/restart \
 # Prometheus metrics
 curl http://localhost:8081/metrics
 ```
+
+## Embedding as a Library
+
+Everything under `pkg/` is importable — `cmd/nonchalant` is just a thin CLI
+wrapper around the same `pkg/config` + `pkg/server` API. Three consumer
+stories this is meant to support:
+
+1. Embed the server for live RTMP broadcast inside a larger Go program.
+2. Subscribe to live streams in-process (e.g. to save them to object
+   storage) instead of pulling your own output back over HTTP-FLV.
+3. Reuse the HLS/DASH packager (`pkg/pkger`) or transcode pipeline
+   (`pkg/transcode`) for VOD work outside the live server.
+
+```go
+package main
+
+import (
+    "context"
+    "log"
+    "net/http"
+    "time"
+
+    "github.com/vinq1911/nonchalant/pkg/config"
+    "github.com/vinq1911/nonchalant/pkg/core/bus"
+    "github.com/vinq1911/nonchalant/pkg/server"
+)
+
+func main() {
+    // 1. Config: build programmatically (config.New gives sane defaults),
+    // or load from YAML with config.Load("path/to.yaml") instead.
+    cfg := config.New()
+    cfg.Server.HealthPort = 18080
+    cfg.Server.HTTPPort = 18081
+    cfg.Server.RTMPPort = 11935
+    if err := cfg.Validate(); err != nil {
+        log.Fatal(err)
+    }
+
+    // 2. Start: New wires up the routes and services; Start blocks, so
+    // run it in a goroutine when embedding.
+    srv := server.New(cfg)
+    go func() {
+        if err := srv.Start(cfg); err != nil && err != http.ErrServerClosed {
+            log.Printf("server error: %v", err)
+        }
+    }()
+
+    // 3. Subscribe: tap a live stream in-process via the bus registry —
+    // no RTMP or HTTP-FLV round trip needed. See the pkg/core/bus package
+    // doc for the full subscribe/tap walkthrough (init-message replay,
+    // backpressure, WaitChan wake-up).
+    key := bus.NewStreamKey("live", "mystream")
+    stream, _ := srv.Registry().GetOrCreate(key)
+    sub, subID := stream.AttachSubscriber(0, bus.BackpressureDropOldest)
+    defer stream.DetachSubscriber(subID)
+
+    go func() {
+        for {
+            msg, ok := sub.Read()
+            if !ok {
+                <-sub.WaitChan() // parks until the next Publish
+                continue
+            }
+            // msg.Payload is the raw audio/video/metadata frame; hand it
+            // to your own muxer, or pkg/core/protocol/flv, or write it
+            // straight to object storage.
+            _ = msg
+        }
+    }()
+
+    // ... run until some external signal / condition ...
+
+    // 4. Shutdown: cleanly stop every subsystem (relay, transcode, RTMP,
+    // HLS/DASH packager, HTTP) with a bounded timeout.
+    ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+    defer cancel()
+    _ = srv.Shutdown(ctx) // or srv.ShutdownWithTimeout() for the 5s default
+}
+```
+
+`internal/` holds wire-protocol and service implementation details (RTMP
+session handling, HTTP-FLV/WS-FLV handlers, the HTTP API, metrics, relay)
+that are not part of the public API — only `pkg/` is meant to be imported by
+external code. See `docs/ARCHITECTURE.md` for the full package layout.
 
 ## Documentation
 

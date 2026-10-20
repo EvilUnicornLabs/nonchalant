@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strings"
 
-	"nonchalant/internal/auth"
+	"github.com/vinq1911/nonchalant/pkg/auth"
 )
 
 // Authenticator decides whether a publish attempt is allowed.

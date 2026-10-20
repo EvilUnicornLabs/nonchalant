@@ -104,27 +104,28 @@ fmt:
 # `curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- v2.1.0`
 lint:
 	@command -v golangci-lint >/dev/null 2>&1 || { echo "golangci-lint not installed; see Makefile comment"; exit 1; }
-	golangci-lint run ./cmd/... ./internal/...
+	golangci-lint run ./cmd/... ./internal/... ./pkg/...
 
 # Test targets
 # NOTE: Exclude scripts/ directory as it contains multiple main functions
 test:
-	go test ./cmd/... ./internal/...
+	go test ./cmd/... ./internal/... ./pkg/...
 
 test-short:
-	go test -short ./cmd/... ./internal/...
+	go test -short ./cmd/... ./internal/... ./pkg/...
 
 test-race:
-	go test -race ./cmd/... ./internal/...
+	go test -race ./cmd/... ./internal/... ./pkg/...
 
 bench:
-	go test -bench=. -benchmem -run=^$$ -benchtime=1s ./cmd/... ./internal/...
+	go test -bench=. -benchmem -run=^$$ -benchtime=1s ./cmd/... ./internal/... ./pkg/...
 
 # Run benchmarks excluding the integration package (which spawns servers and
 # is the slowest). Useful for fast iteration on bus / handler / auth perf.
 bench-fast:
 	go test -bench=. -benchmem -run=^$$ -benchtime=500ms \
-	  ./internal/auth/... \
+	  ./pkg/auth/... \
+	  ./pkg/core/... \
 	  ./internal/core/... \
 	  ./internal/svc/api/... \
 	  ./internal/svc/metrics/... \

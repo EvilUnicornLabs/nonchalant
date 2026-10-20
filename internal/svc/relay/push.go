@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"nonchalant/internal/core/bus"
+	"github.com/vinq1911/nonchalant/pkg/core/bus"
 )
 
 // PushTask implements push relay (subscribe local, publish remote).

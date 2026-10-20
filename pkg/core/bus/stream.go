@@ -76,12 +76,6 @@ type Stream struct {
 	notify atomic.Pointer[chan struct{}]
 }
 
-// Publisher represents a stream publisher.
-// Only one publisher can be attached to a stream at a time.
-type Publisher struct {
-	id uint64 // Unique publisher ID
-}
-
 // NewStream creates a new stream with default capacities suitable for live
 // 1080p video at typical bitrates: 1024-slot log, 4096-slot × 16 KB arena.
 func NewStream(key StreamKey) *Stream {
@@ -149,38 +143,6 @@ func (s *Stream) AcquireMessage() *MediaMessage {
 
 // Key returns the stream's key.
 func (s *Stream) Key() StreamKey { return s.key }
-
-// AttachPublisher attaches a publisher to the stream.
-// Returns true if attached, false if a publisher is already attached.
-func (s *Stream) AttachPublisher(id uint64) bool {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	if s.publisher != nil {
-		return false
-	}
-
-	s.publisher = &Publisher{id: id}
-	return true
-}
-
-// DetachPublisher detaches the current publisher from the stream.
-// Also clears cached init messages since they belong to the publisher's session.
-func (s *Stream) DetachPublisher() {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.publisher = nil
-	s.initVideo = nil
-	s.initAudio = nil
-	s.initMeta = nil
-}
-
-// HasPublisher returns true if a publisher is currently attached.
-func (s *Stream) HasPublisher() bool {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	return s.publisher != nil
-}
 
 // AttachSubscriber attaches a new subscriber to the stream.
 // The capacity and strategy arguments are accepted for API stability but

@@ -8,7 +8,7 @@ package transcode
 
 import (
 	"errors"
-	"nonchalant/internal/ffx"
+	"github.com/vinq1911/nonchalant/internal/ffx"
 )
 
 // Pipeline represents a transcoding pipeline.
